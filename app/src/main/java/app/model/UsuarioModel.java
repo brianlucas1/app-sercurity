@@ -20,6 +20,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import app.excpetion.PassowrdNotEqualsException;
+import app.excpetion.SenhaNullExecption;
 
 @Entity
 @Table(name = "tb_usuario")
@@ -62,12 +63,25 @@ public class UsuarioModel implements UserDetails{
 		return passwordConfirm;
 	}
 
-	public void setPasswordConfirm(String passwordConfirm) throws PassowrdNotEqualsException {
-		if(this.senha.equals(passwordConfirm)) {
-			this.passwordConfirm = passwordConfirm;
-		}else{
-			throw new PassowrdNotEqualsException("As senhas digitadas não são iguais.");
+	public void setPasswordConfirm(String passwordConfirm) throws PassowrdNotEqualsException, SenhaNullExecption {
+		
+		if(!isNull(passwordConfirm,this.senha)) {			
+			if(this.senha.equals(passwordConfirm)) {
+				this.passwordConfirm = passwordConfirm;
+			}else{
+				throw new PassowrdNotEqualsException("As senhas digitadas não são iguais.");
+			}
 		}
+		
+	}
+
+	private boolean isNull(String passwordConfirm, String passoword) throws SenhaNullExecption {
+		
+		if(passwordConfirm == null || passoword == null) {
+			throw new SenhaNullExecption("Preencher o campo passoword ou passordConfirm.");
+		}
+
+		return false;
 	}
 
 	public String getEmail() {

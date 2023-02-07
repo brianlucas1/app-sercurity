@@ -67,5 +67,13 @@ public class UsuarioController {
 		return new ResponseEntity<List<UsuarioDTO>>(users, HttpStatus.CREATED);
 	}
 	
+	
+	@PostMapping("/create/test")
+	public ResponseEntity<UsuarioDTO> createTest(@RequestBody @Valid UsuarioModel user) throws PassowrdNotEqualsException {				
+	
+		return new ResponseEntity<UsuarioDTO>( HttpStatus.CREATED);
+	}	
+	
+	
 
 }

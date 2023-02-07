@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import app.config.validacao.errors.ErroCampos;
 import app.excpetion.PassowrdNotEqualsException;
+import app.excpetion.SenhaNullExecption;
 
 @RestControllerAdvice
 public class ErroBeanValidationHandler {
@@ -41,8 +42,7 @@ public class ErroBeanValidationHandler {
 							);
 					dto.add(erro);
 					});
-		
-		
+
 		return dto;
 	}
 	
@@ -59,9 +59,24 @@ public class ErroBeanValidationHandler {
 							exception.getClass().getName()
 							);
 					dto.add(erro);
-					
+
+		return dto;
+	}
+	
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(SenhaNullExecption.class)
+	public List<ErroCampos> handle(SenhaNullExecption exception) {
 		
+		List<ErroCampos> dto = new ArrayList<ErroCampos>();
 		
+			ErroCampos erro = new ErroCampos
+							("password or passwordConfirm",
+							exception.getMessage(),
+							LocalDateTime.now(),
+							exception.getClass().getName()
+							);
+					dto.add(erro);
+
 		return dto;
 	}
 	
